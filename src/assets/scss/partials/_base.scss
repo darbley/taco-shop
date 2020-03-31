@@ -1,46 +1,88 @@
-
 @import "_vars.scss";
+
 html {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+*
+{
+    margin:0px;
+    padding:0px;
 }
 
-#root {
+// Make 100% height of browser window
+body, #root {
+    height: 100%;
+   /*  position: relative; */
+}
+
+// General wrapper for site
+.wrapper{
     display: block;
-    overflow: hidden;
-    z-index: 1;
+    min-height: 100%;
+    //overflow: hidden;
 }
-
+// General blockwrap, wrapper for full width containers, always 100% width
+.blockwrap {
+    display:block;
+    position: relative;
+    overflow:hidden;
+    width: 100%;
+    text-align: center;
+}
+// General content container
 .container {
     display: block;
-    max-width: 1050px;
+    position: relative;
+    // $screen-md = px;
+    width: 100%;
+    max-width: $screen-lg; // 1024px
     margin: 0 auto;
     text-align: center;
+}
 
-    @media (max-width: 1050px){
-        width: 90%;
+.content {
+    display: block;
+    margin: 0 auto;
+    padding: 0 15px 0 15px;
+    text-align: center;
+
+    @media(min-width: $screen-md){
+        padding: 0 20px 0 20px;
     }
-    
+
+    img {
+        max-width: 100%;
+    }
 }
 
 h1,h2,h3,h4,h5 {
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+     
+    font-family: $baseFont, Arial, Helvetica, sans-serif;
     font-weight: 300;
-    color: $truss-blue;
 }
+
+
 a {
     transition: 0.4s ease  all;
     outline: none;
     border: none;
 }
 a:hover {
-    color: rgba(162, 112, 181, 1);
+    color: red;
 }
-.text-left {
-    text-align: left;
+a:visited {
+     
 }
-.text-right {
-    text-align: right;
-}
+/* :link { color: #0000EE; } */
+/* :visited { color: $raft-green; } */
+
+/* HELPE
+/* HELPERS */
 
 .show {
     display: block;
@@ -48,24 +90,32 @@ a:hover {
 .hide {
     display: none!important;
 }
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.side-half {
+    display: inline-block;
+    width:49%;
+}
+
 .not-visible {
   visibility: hidden !important;
   opacity: 0 !important;
   transition: opacity 3.25s ease-in-out;
 }
+
+br.mobile {
+    display: none;
+    @media (min-width: $screen-md){
+        display: block;
+    }
+}
 html:lang(en) {
-    br.only-fr {
-        display: none;
-    }
-    br.only-en {
-        display: inline-block;
-    }
+   
 } 
 html:lang(fr) {
-    br.only-fr {
-        display: inline-block;
-    }
-    br.only-en {
-        display: none;
-    }
+    
 } 
