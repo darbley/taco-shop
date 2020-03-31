@@ -3,7 +3,8 @@ import './style.scss';
 
 const Layout = (props) => (
     <div className={`wrapper ${props.addClass}`}>
-        {children}
+        <div>Toolbar, SideDrawer, Backdrop</div> 
+        {props.children}
     </div>
 )
 export default Layout;
