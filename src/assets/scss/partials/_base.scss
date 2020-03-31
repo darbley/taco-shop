@@ -1,0 +1,71 @@
+
+@import "_vars.scss";
+html {
+    scroll-behavior: smooth;
+}
+
+#root {
+    display: block;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.container {
+    display: block;
+    max-width: 1050px;
+    margin: 0 auto;
+    text-align: center;
+
+    @media (max-width: 1050px){
+        width: 90%;
+    }
+    
+}
+
+h1,h2,h3,h4,h5 {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    color: $truss-blue;
+}
+a {
+    transition: 0.4s ease  all;
+    outline: none;
+    border: none;
+}
+a:hover {
+    color: rgba(162, 112, 181, 1);
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+
+.show {
+    display: block;
+}
+.hide {
+    display: none!important;
+}
+.not-visible {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: opacity 3.25s ease-in-out;
+}
+html:lang(en) {
+    br.only-fr {
+        display: none;
+    }
+    br.only-en {
+        display: inline-block;
+    }
+} 
+html:lang(fr) {
+    br.only-fr {
+        display: inline-block;
+    }
+    br.only-en {
+        display: none;
+    }
+} 
