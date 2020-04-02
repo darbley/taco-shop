@@ -12,7 +12,7 @@ class TacoBuilder extends React.Component {
             lettuce: 1,
             tomato: 1,
             onion: 1,
-            salsa: 1,
+            salsa: 2,
             sourCream: 1,
             guacamole: 1,
             cilantro: 1
