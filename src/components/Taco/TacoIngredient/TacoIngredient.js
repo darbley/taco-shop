@@ -62,8 +62,7 @@ class TacoIngredient extends React.Component{
             default:
                 ingredient = null;
         }
-
-
+        
         return ingredient;
 
     }

@@ -22,7 +22,7 @@ const Taco = (props) => {
     }
     console.log('toppings ',toppings);
     return (
-        <div>
+        <div className="taco-wrap">
             {toppings}
         </div>
 )}
