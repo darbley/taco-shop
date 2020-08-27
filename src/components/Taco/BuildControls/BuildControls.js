@@ -13,7 +13,7 @@ const controls = [
     { label: 'Tomato', type: 'tomato'},
     { label: 'Onion', type: 'onion'},
     { label: 'Salsa', type: 'salsa'},
-    { label: 'Sour Cream', type: 'sour-cream'},
+    { label: 'Sour Cream', type: 'sourCream'},
     { label: 'Guacamole', type: 'guacamole'},
     { label: 'Cilantro', type: 'cilantro'}
 ];
@@ -24,7 +24,13 @@ const BuildControls = (props) => (
         {
             controls.map((ctrl) => {
                 return (
-                    <BuildControl label={ctrl.label} key={ctrl.label} />
+                    <BuildControl 
+                        label={ctrl.label} 
+                        key={ctrl.label} 
+                        addIngredient={() => props.addIngredient(ctrl.type)}
+                        removeIngredient={() => props.removeIngredient(ctrl.type)}
+                        disabled={props.disabled[ctrl.type]}
+                     />
                 )
             })
         }

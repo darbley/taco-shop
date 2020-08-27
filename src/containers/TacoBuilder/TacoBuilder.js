@@ -3,6 +3,21 @@ import './style.scss';
 import Taco from '../../components/Taco/Taco';
 import BuildControls from '../../components/Taco/BuildControls/BuildControls';
 
+const INGREDIENT_PRICES = {
+    beef: 1,
+    chicken: 1,
+    pork: 1,
+    bean: 1,
+    fish: 1,
+    lettuce: 0.3,
+    tomato: 0.25,
+    onion: 0.25,
+    salsa: 0.35,
+    sourCream: 0.25,
+    guacamole: 0.8,
+    cilantro: 0.3
+}
+
 class TacoBuilder extends React.Component {
     state = {
         ingredients: {
@@ -19,14 +34,72 @@ class TacoBuilder extends React.Component {
             sourCream: 0,
             guacamole: 0,
             cilantro: 0
+        },
+        totalPrice: 4
+    }
+
+    addIngredientHandler = (type) => {
+        const currentCount = this.state.ingredients[type];
+        const updatedCount = currentCount + 1;
+        
+        const updatedIngredients = {
+            ...this.state.ingredients
         }
+        //Update ingredient
+        updatedIngredients[type] = updatedCount;
+
+        //Add extra cost
+        const price = INGREDIENT_PRICES[type];
+        const currentPrice  = this.state.totalPrice;
+        const newPrice      = currentPrice + price;
+        this.setState({
+            totalPrice: newPrice,
+            ingredients: updatedIngredients
+        })
+    }
+
+    removeIngredientHandler = (type) => {
+        const currentCount = this.state.ingredients[type];
+        //Make sure there is a single ingredient or return
+        if(currentCount <= 0){
+            return
+        }
+
+        const updatedCount = currentCount - 1;
+        
+        const updatedIngredients = {
+            ...this.state.ingredients
+        }
+        //Update ingredient
+        updatedIngredients[type] = updatedCount;
+
+        //Add extra cost
+        const price = INGREDIENT_PRICES[type];
+        const currentPrice  = this.state.totalPrice;
+        const newPrice      = currentPrice - price;
+
+        this.setState({
+            totalPrice: newPrice,
+            ingredients: updatedIngredients
+        })
     }
 
     render() {
+        const disableInfo = {
+            ...this.state.ingredients
+        }
+        //Return value of true or false
+        for(let key in disableInfo){
+            disableInfo[key] = disableInfo[key] <= 0
+        }
         return (
             <div>
                 <Taco ingredients={this.state.ingredients} />
-                <BuildControls />
+                <BuildControls 
+                    addIngredient={this.addIngredientHandler}   
+                    removeIngredient={this.removeIngredientHandler} 
+                    disabled={disableInfo}
+                />
             </div>
         )
     }

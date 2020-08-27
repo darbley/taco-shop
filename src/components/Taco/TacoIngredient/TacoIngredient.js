@@ -49,7 +49,7 @@ class TacoIngredient extends React.Component{
             case('salsa'):
                 ingredient = <div className="salsa"></div>;
                 break;
-            case('sour-cream'):
+            case('sourCream'):
                 ingredient = <div className="sour-cream"></div>;
                 break;
             case('guacamole'):
