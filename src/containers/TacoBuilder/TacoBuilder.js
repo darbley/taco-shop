@@ -2,6 +2,8 @@ import React from 'react';
 import './style.scss';
 import Taco from '../../components/Taco/Taco';
 import BuildControls from '../../components/Taco/BuildControls/BuildControls';
+import Modal from '../../UI/Modal/Modal';
+import OrderSummary from '../../components/Taco/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     beef: 1,
@@ -37,6 +39,7 @@ class TacoBuilder extends React.Component {
         },
         totalPrice: 4,
         purchaseable: false,
+        orderNow: false,
     }
 
     addIngredientHandler = (type) => {
@@ -106,6 +109,10 @@ class TacoBuilder extends React.Component {
         
     }
 
+    orderNowHandler = () => {
+        this.setState({ orderNow: true });
+    }
+
     render() {
         const disableInfo = {
             ...this.state.ingredients
@@ -117,6 +124,9 @@ class TacoBuilder extends React.Component {
         
         return (
             <div>
+                <Modal show={this.state.orderNow}>
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
                 <Taco ingredients={this.state.ingredients} />
                 <BuildControls 
                     addIngredient={this.addIngredientHandler}   
@@ -124,6 +134,7 @@ class TacoBuilder extends React.Component {
                     disabled={disableInfo}
                     purchaseable={this.state.purchaseable}
                     totalPrice={this.state.totalPrice}
+                    orderNow={this.orderNowHandler}
                 />
             </div>
         )
