@@ -119,3 +119,11 @@ html:lang(en) {
 html:lang(fr) {
     
 } 
+
+
+.btn {
+    font-family: $baseFont;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}

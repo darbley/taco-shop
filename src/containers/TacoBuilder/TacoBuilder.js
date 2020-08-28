@@ -35,7 +35,8 @@ class TacoBuilder extends React.Component {
             guacamole: 0,
             cilantro: 0
         },
-        totalPrice: 4
+        totalPrice: 4,
+        purchaseable: false,
     }
 
     addIngredientHandler = (type) => {
@@ -56,6 +57,7 @@ class TacoBuilder extends React.Component {
             totalPrice: newPrice,
             ingredients: updatedIngredients
         })
+        this.updatePurchaseState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
@@ -82,6 +84,26 @@ class TacoBuilder extends React.Component {
             totalPrice: newPrice,
             ingredients: updatedIngredients
         })
+        this.updatePurchaseState(updatedIngredients);
+    }
+
+    updatePurchaseState = (ingredients) => {
+       
+
+        // const sum = Object.keys(ingredients)
+        //             .map((igKey) => {
+        //                 return (
+        //                     ingredients[igKey]
+        //                 )
+        //             })
+
+        const sum = Object.values(ingredients)
+            .reduce((sum, numbr) => {
+                return sum + numbr
+            }, 0);
+        //console.log('sum obj val ',sum);
+        this.setState({ purchaseable: sum > 0});
+        
     }
 
     render() {
@@ -92,6 +114,7 @@ class TacoBuilder extends React.Component {
         for(let key in disableInfo){
             disableInfo[key] = disableInfo[key] <= 0
         }
+        
         return (
             <div>
                 <Taco ingredients={this.state.ingredients} />
@@ -99,9 +122,11 @@ class TacoBuilder extends React.Component {
                     addIngredient={this.addIngredientHandler}   
                     removeIngredient={this.removeIngredientHandler} 
                     disabled={disableInfo}
+                    purchaseable={this.state.purchaseable}
+                    totalPrice={this.state.totalPrice}
                 />
             </div>
         )
     }
 }
-export default TacoBuilder;
+export default TacoBuilder; 
