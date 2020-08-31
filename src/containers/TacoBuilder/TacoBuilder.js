@@ -136,6 +136,7 @@ class TacoBuilder extends React.Component {
                         ingredients={this.state.ingredients} 
                         purchaseCancel={this.modalCloseHandler}
                         purchaseContinue={this.purchaseContinueHandler}
+                        totalPrice={this.state.totalPrice}
                     />
                 </Modal>
                 <Taco ingredients={this.state.ingredients} />
