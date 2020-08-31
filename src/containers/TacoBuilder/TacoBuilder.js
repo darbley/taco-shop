@@ -116,6 +116,9 @@ class TacoBuilder extends React.Component {
     modalCloseHandler = () => {
         this.setState({orderNow: false})    
     }
+    purchaseContinueHandler = () => {
+
+    }
 
     render() {
         const disableInfo = {
@@ -129,7 +132,11 @@ class TacoBuilder extends React.Component {
         return (
             <div>
                 <Modal show={this.state.orderNow} modalClose={this.modalCloseHandler}>
-                    <OrderSummary ingredients={this.state.ingredients} />
+                    <OrderSummary 
+                        ingredients={this.state.ingredients} 
+                        purchaseCancel={this.modalCloseHandler}
+                        purchaseContinue={this.purchaseContinueHandler}
+                    />
                 </Modal>
                 <Taco ingredients={this.state.ingredients} />
                 <BuildControls 
