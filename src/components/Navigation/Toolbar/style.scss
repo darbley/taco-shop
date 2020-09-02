@@ -1,0 +1,23 @@
+@import '../../../assets/scss/partials/vars';
+
+.toolbar {
+    z-index: 90;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    background-color: #c1c1c1;
+
+    header {
+        display: flex;     
+        justify-content: space-between;
+        box-sizing: border-box;
+
+        nav {
+            height: 100%
+        }
+    }
+
+    
+}
