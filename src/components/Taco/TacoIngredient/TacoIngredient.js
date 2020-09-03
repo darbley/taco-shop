@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './style.scss';
+import TacoShell from './i/taco-shell.png';
+import TacoShellSoft from './i/taco-shell.png';
 
 class TacoIngredient extends React.Component{
 
@@ -21,9 +24,16 @@ class TacoIngredient extends React.Component{
             case('tortilla'): 
                     ingredient = (
                         <div>
-                            tortilla
+                            <img src={TacoShell} className={ingredient} alt={ingredient} />
                         </div>
                     );
+                break;
+            case('tortillaSoft'): 
+                ingredient = (
+                    <div>
+                        <img src={TacoShellSoft} className="tortilla-soft" alt={ingredient} />
+                    </div>
+                );
                 break;
             case('beef'):
                 ingredient = <div className="beef"></div>;

@@ -4,6 +4,7 @@ import BuildControl from './BuildControl/BuildControl';
 
 const controls = [
     { label: 'Tortilla', type: 'tortilla'},
+    { label: 'Tortilla Soft', type: 'tortillaSoft'},
     { label: 'Beef', type: 'beef'},
     { label: 'Chicken', type: 'chicken'},
     { label: 'Pork', type: 'pork'},

@@ -6,6 +6,8 @@ import Modal from '../../UI/Modal/Modal';
 import OrderSummary from '../../components/Taco/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
+    tortilla: 0,
+    tortillaSoft: 0,
     beef: 1,
     chicken: 1,
     pork: 1,
@@ -24,6 +26,7 @@ class TacoBuilder extends React.Component {
     state = {
         ingredients: {
             tortilla: 0,
+            tortillaSoft: 0,
             beef: 0,
             chicken: 0,
             pork: 0,

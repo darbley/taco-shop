@@ -1,0 +1,24 @@
+@import '../../../assets/scss/partials/vars';
+
+.side-drawer {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 280px;
+    max-width: 70%;
+    background: $white;
+    transition: all .3s ease-out;
+
+    @media(min-width: $screen-md){
+        display: none;
+    }
+
+    &.open {
+        transform: translateX(0px);
+    }
+    &.close {
+        transform: translateX(-100%);
+    }
+}
