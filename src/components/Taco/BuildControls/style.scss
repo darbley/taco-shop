@@ -9,6 +9,11 @@
     color: $black;
     font-family: $baseFont;
 
+    @media(min-width: $screen-md){
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
     h4 {
         display: block;
         width: 100%;
@@ -16,11 +21,17 @@
         text-align: left;
     }
 
-
-    .btn.order-now {
+    .btn.order-now  {
         width: 80%;
         max-width: 375px;
         margin: 15px auto;
+        text-align: left;
+
+        @media(min-width: $screen-md){
+            padding: 12px;
+            text-align: center;
+            
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import imgLogo from './i/taco-logo.png';
+import imgLogo from './i/taco-logo-a.png';
 
 const Logo = (props) => (
     <div>

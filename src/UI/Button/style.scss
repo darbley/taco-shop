@@ -1,13 +1,11 @@
 @import '../../assets/scss/partials/vars';
 .btn {
     //background-color: transparent;
+    margin: 10px;
+    padding: 10px;
     border: none;
     color: black;
-    outline: none;
-    cursor: pointer;
-    font: inherit;
-    padding: 10px;
-    margin: 10px;
+    font-family: $baseFont;
     font-weight: bold;
 
     &:disabled{
@@ -16,10 +14,10 @@
     }
 }
 
-.btn:first-of-type {
-    margin-left: 0;
-    padding-left: 0;
-}
+// .btn:first-of-type {
+//     margin-left: 0;
+//     padding-left: 0;
+// }
 
 .success {
     color: #5C9210;

@@ -1,6 +1,28 @@
 @import '../../../assets/scss/partials/vars';
 
 nav.nav-items {
-    list-style-type: none;
+    
     padding: 0;
+
+    ul {
+        list-style-type: none;
+    }
+    li {
+        display: block;
+        margin: 8px;
+
+        @media(min-width: $screen-md){
+            display: inline-block;
+        }
+
+        a {
+            padding: 6px;
+            color: $green;
+            text-decoration: none;
+
+            &:hover{
+                color: $blue-light;
+            }
+        }
+    }
 }
