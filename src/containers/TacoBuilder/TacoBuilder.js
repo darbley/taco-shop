@@ -4,6 +4,9 @@ import Taco from '../../components/Taco/Taco';
 import BuildControls from '../../components/Taco/BuildControls/BuildControls';
 import Modal from '../../UI/Modal/Modal';
 import OrderSummary from '../../components/Taco/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
+import Spinner from '../../UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
     tortilla: 0,
@@ -43,6 +46,7 @@ class TacoBuilder extends React.Component {
         totalPrice: 4,
         purchaseable: false,
         orderNow: false,
+        loading: false
     }
 
     addIngredientHandler = (type) => {
@@ -121,6 +125,37 @@ class TacoBuilder extends React.Component {
     }
     purchaseContinueHandler = () => {
 
+        this.setState({ loading: true });
+
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customer: {
+                name: "buddy name",
+                address: {
+                    street: '25 road street',
+                    zipCode: 'MFR83M',
+                    country: 'Canada'
+                },
+                email: 'testmail@gmail.com'
+            },
+            deliveryMethod: 'fastest'
+        }
+
+        axios.post('/orders.json', order)
+            .then(response => {
+                this.setState({ 
+                    loading: false,
+                    orderNow: false
+                 });
+            })
+            .catch(error => {
+                this.setState({ 
+                    loading: false,
+                    orderNow: false
+                });
+            });
+
     }
 
     render() {
@@ -131,16 +166,22 @@ class TacoBuilder extends React.Component {
         for(let key in disableInfo){
             disableInfo[key] = disableInfo[key] <= 0
         }
+
+        let orderSummary = <OrderSummary 
+                                ingredients={this.state.ingredients} 
+                                purchaseCancel={this.modalCloseHandler}
+                                purchaseContinue={this.purchaseContinueHandler}
+                                totalPrice={this.state.totalPrice}
+                            />
+
+        if(this.state.loading){
+            orderSummary = <Spinner />;
+        }
         
         return (
             <div>
                 <Modal show={this.state.orderNow} modalClose={this.modalCloseHandler}>
-                    <OrderSummary 
-                        ingredients={this.state.ingredients} 
-                        purchaseCancel={this.modalCloseHandler}
-                        purchaseContinue={this.purchaseContinueHandler}
-                        totalPrice={this.state.totalPrice}
-                    />
+                    {orderSummary}
                 </Modal>
                 <Taco ingredients={this.state.ingredients} />
                 <BuildControls 
@@ -155,4 +196,4 @@ class TacoBuilder extends React.Component {
         )
     }
 }
-export default TacoBuilder; 
+export default withErrorHandler(TacoBuilder, axios); 
