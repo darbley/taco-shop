@@ -27,26 +27,25 @@ const INGREDIENT_PRICES = {
 
 class TacoBuilder extends React.Component {
     state = {
-        ingredients: {
-            tortilla: 0,
-            tortillaSoft: 0,
-            beef: 0,
-            chicken: 0,
-            pork: 0,
-            bean: 0,
-            fish: 0,
-            lettuce: 0,
-            tomato: 0,
-            onion: 0,
-            salsa: 0,
-            sourCream: 0,
-            guacamole: 0,
-            cilantro: 0
-        },
+        ingredients: null,
         totalPrice: 4,
         purchaseable: false,
         orderNow: false,
-        loading: false
+        loading: false,
+        error: false
+    }
+
+    componentDidMount() {
+        axios.get('https://taco-shop-c2d0c.firebaseio.com/ingredients.json')
+            .then(response => {
+                console.log('response ',response);
+                this.setState({ingredients: response.data});
+            })
+            .catch(error => {
+                this.setState({
+                    error: true
+                })
+            });
     }
 
     addIngredientHandler = (type) => {
@@ -166,32 +165,44 @@ class TacoBuilder extends React.Component {
         for(let key in disableInfo){
             disableInfo[key] = disableInfo[key] <= 0
         }
+        let orderSummary = <Spinner />;
+        let myTaco = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
 
-        let orderSummary = <OrderSummary 
-                                ingredients={this.state.ingredients} 
-                                purchaseCancel={this.modalCloseHandler}
-                                purchaseContinue={this.purchaseContinueHandler}
-                                totalPrice={this.state.totalPrice}
-                            />
+        if(this.state.ingredients){
+            myTaco = (
+                <React.Fragment>
+                    <Taco ingredients={this.state.ingredients} />
+                    <BuildControls 
+                        addIngredient={this.addIngredientHandler}   
+                        removeIngredient={this.removeIngredientHandler} 
+                        disabled={disableInfo}
+                        purchaseable={this.state.purchaseable}
+                        totalPrice={this.state.totalPrice}
+                        orderNow={this.orderNowHandler}
+                    />
+                </React.Fragment>
+            )
+
+            orderSummary = <OrderSummary 
+                ingredients={this.state.ingredients} 
+                purchaseCancel={this.modalCloseHandler}
+                purchaseContinue={this.purchaseContinueHandler}
+                totalPrice={this.state.totalPrice}
+            />
+        } 
 
         if(this.state.loading){
             orderSummary = <Spinner />;
         }
-        
+
         return (
             <div>
-                <Modal show={this.state.orderNow} modalClose={this.modalCloseHandler}>
+                <Modal show={this.state.orderNow} closeBackdrop={this.modalCloseHandler}>
                     {orderSummary}
                 </Modal>
-                <Taco ingredients={this.state.ingredients} />
-                <BuildControls 
-                    addIngredient={this.addIngredientHandler}   
-                    removeIngredient={this.removeIngredientHandler} 
-                    disabled={disableInfo}
-                    purchaseable={this.state.purchaseable}
-                    totalPrice={this.state.totalPrice}
-                    orderNow={this.orderNowHandler}
-                />
+
+                {myTaco}
+                
             </div>
         )
     }

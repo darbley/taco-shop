@@ -8,7 +8,7 @@ class Layout extends React.Component {
     //     super(props)
     // }
     state ={
-        showSideDrawer: true
+        showSideDrawer: false
     }
     sideDrawerCloseHandler = () => {
         this.setState({showSideDrawer: false})

@@ -6,7 +6,7 @@ import Backdrop from '../../../UI/Backdrop/Backdrop';
 
 const SideDrawer = (props) => {
     let sideDrawerStatus = 'close';
-    if(props.open){
+    if(props.open === true){
         sideDrawerStatus = 'open';
     }
     return (
