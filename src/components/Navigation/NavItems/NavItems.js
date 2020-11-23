@@ -5,8 +5,8 @@ import NavItem from './NavItem/NavItem';
 const NavItems = (props) => (
     <nav className="nav-items">
         <ul>
-            <NavItem link="/" active >Taco Builder</NavItem>
-            <NavItem link="/" >Checkout</NavItem>
+            <NavItem link="/" >Taco Builder</NavItem>
+            <NavItem link="/orders" exact>Orders</NavItem>
         </ul>
     </nav>
 )
