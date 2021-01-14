@@ -3,22 +3,29 @@ import './style.scss';
 
 const Input = (props) =>{ 
     let inputElement = null;
+    let inputClass = '';
+
+    if(props.invalid && props.shouldValidate && props.touched){
+        inputClass = props.invalid ? 'invalid' : '';
+    }
 
     switch(props.elementType){
 
         case('input'):
-            inputElement = <input className="" {...props.elementConfig} value={props.value} onChange={props.changed} />
+            inputElement = <input className={inputClass} {...props.elementConfig} value={props.value} onChange={props.changed} />
             break;
 
         case('textarea'):
-            inputElement = <textarea className="" {...props.elementConfig} value={props.value} onChange={props.changed} />;
+            inputElement = <textarea className={inputClass} {...props.elementConfig} value={props.value} onChange={props.changed} />;
             break;
         case('select'):
             inputElement = (
                         <select
-                            className="dropdown-select"
+                            className={`dropdown-select ${inputClass}`}
                             value={props.value}
                             onChange={props.changed}
+                             
+                            
                         >
                             {props.elementConfig.options.map((option) => {
                                 return(

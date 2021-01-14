@@ -15,7 +15,12 @@ class ContactData extends React.Component {
                         type: 'text',
                         placeholder: 'Your Name',
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false,
+                    touched: false
                 },
                 street: {
                     elementType: 'input',
@@ -24,6 +29,11 @@ class ContactData extends React.Component {
                         placeholder: 'Street',
                     },
                     value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false,
+                    touched: false
                 },
                 zipCode: {
                     elementType: 'input',
@@ -32,6 +42,13 @@ class ContactData extends React.Component {
                         placeholder: 'Zip Code',
                     },
                     value: '',
+                    validation: {
+                        required: true,
+                        minLength: 5,
+                        maxLength: 5
+                    },
+                    valid: false,
+                    touched: false
                 },
                 country: {
                     elementType: 'input',
@@ -40,6 +57,11 @@ class ContactData extends React.Component {
                         placeholder: 'Country',
                     },
                     value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false,
+                    touched: false
                 },
                 email:{
                     elementType: 'input',
@@ -48,6 +70,11 @@ class ContactData extends React.Component {
                         placeholder: 'email@address.com',
                     },
                     value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false,
+                    touched: false
                 },
                 deliveryMethod: {
                     elementType: 'select',
@@ -58,7 +85,9 @@ class ContactData extends React.Component {
                             { value: 'cheapest', displayValue: 'Cheapest'}
                         ]
                     },
-                    value: ''
+                    value: '',
+                    validation: {},
+                    valid: false
                 },
         },
         
@@ -68,6 +97,24 @@ class ContactData extends React.Component {
     componentDidMount = () => {
         
 
+    }
+
+    checkValidity = (value, rules) => {
+        let isValid = true;
+
+        if (rules.required){
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if(rules.minLength){
+            isValid = value.length >= rules.minLength && isValid
+        }
+
+        if(rules.maxLength){
+            isValid = value.length <= rules.maxLength && isValid
+        }
+
+        return isValid;
     }
 
     inputChangeHandler = (event, inputIdentity) => {
@@ -83,9 +130,17 @@ class ContactData extends React.Component {
         }
 
         updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
         updatedOrderForm[inputIdentity] = updatedFormElement;
+
+        let formIsValid = true;
+        for (let formElement in updatedOrderForm){
+            formIsValid = updatedOrderForm[formElement].valid && formIsValid;
+        }
         this.setState({
-            orderForm: updatedOrderForm
+            orderForm: updatedOrderForm,
+            formIsValid: formIsValid
         });
     }
 
@@ -93,9 +148,15 @@ class ContactData extends React.Component {
         e.preventDefault();
          this.setState({ loading: true });
 
+        const formData = {};
+        for (let formElement in this.state.orderForm){
+            formData[formElement] = this.state.orderForm[formElement].value;
+        }
+
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.price
+            price: this.props.price,
+            orderData: formData
         }
         console.log('order ',order);
 
@@ -123,7 +184,7 @@ class ContactData extends React.Component {
             })
         }
 
-        let form = (<form>
+        let form = (<form onSubmit={this.orderHandler}>
             
                         {formElementsArray.map((el) => {
                             return (
@@ -133,6 +194,9 @@ class ContactData extends React.Component {
                                     elementConfig={el.config.elementConfig} 
                                     value={el.config.value} 
                                     changed={(event) => this.inputChangeHandler(event, el.id)} 
+                                    invalid={!el.config.valid}
+                                    shouldValidate={el.config.validation}
+                                    touched={el.config.touched}
                                 />
                             )
                         })}
@@ -140,7 +204,7 @@ class ContactData extends React.Component {
                         <Input type="email" inputtype="input" name="email" placeholder="email" />
                         <Input type="text" inputtype="input" name="street" placeholder="street" />
                         <Input type="text" inputtype="input" name="postal" placeholder="A1A 1A1" /> */}
-                        <Button btnType="Success" btnClick={this.orderHandler} >ORDER</Button>
+                        <Button btnType="Success" disabled={!this.state.formIsValid} >ORDER</Button>
                     </form>);
 
         if(this.state.loading ){
