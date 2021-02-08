@@ -1,10 +1,13 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import './style.scss';
 import Button from '../../../UI/Button/Button';
 import axios from '../../../axios-orders';
 import Spinner from '../../../UI/Spinner/Spinner';
 import Input from '../../../UI/Forms/Input/Input';
 //import { element } from 'prop-types';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions/'
 
 class ContactData extends React.Component {
     state = {
@@ -85,13 +88,13 @@ class ContactData extends React.Component {
                             { value: 'cheapest', displayValue: 'Cheapest'}
                         ]
                     },
-                    value: '',
+                    value: 'fastest',
                     validation: {},
-                    valid: false
+                    valid: true
                 },
-        },
+        }
         
-        loading: false
+        //loading: false
     }
 
     componentDidMount = () => {
@@ -146,7 +149,7 @@ class ContactData extends React.Component {
 
     orderHandler = (e) => {
         e.preventDefault();
-         this.setState({ loading: true });
+         //this.setState({ loading: true });
 
         const formData = {};
         for (let formElement in this.state.orderForm){
@@ -154,25 +157,27 @@ class ContactData extends React.Component {
         }
 
         const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.price,
+            ingredients: this.props.rdx_ingredients,
+            price: this.props.rdx_totalPrice,
             orderData: formData
         }
         console.log('order ',order);
 
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({ 
-                    loading: false,
-                 });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                this.setState({ 
-                    loading: false,
+        this.props.onOrderTaco(order);
+
+        // axios.post('/orders.json', order)
+        //     .then(response => {
+        //         this.setState({ 
+        //             loading: false,
+        //          });
+        //         this.props.history.push('/');
+        //     })
+        //     .catch(error => {
+        //         this.setState({ 
+        //             loading: false,
                     
-                });
-            });
+        //         });
+        //     });
     }
 
     render() {
@@ -207,7 +212,7 @@ class ContactData extends React.Component {
                         <Button btnType="Success" disabled={!this.state.formIsValid} >ORDER</Button>
                     </form>);
 
-        if(this.state.loading ){
+        if(this.props.rdx_loading ){
             form = <Spinner />;
         }
         return (
@@ -218,4 +223,23 @@ class ContactData extends React.Component {
         )
     }
 }
-export default ContactData;
+
+const mapStateToProps = (state) => {
+    return {
+        rdx_ingredients: state.tacoBuilder.ingredients,
+        rdx_totalPrice: state.tacoBuilder.totalPrice,
+        rdx_loading: state.order.loading
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onOrderTaco: (orderData) => {
+            return (
+                dispatch(actions.purchaseTaco(orderData))
+            )
+        } 
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
