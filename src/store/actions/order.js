@@ -22,7 +22,7 @@ export const purchaseTacoStart = () => {
     }
 }
 
- export const purchaseTaco = (orderData) => {
+export const purchaseTaco = (orderData) => {
     return (dispatch) => {
         dispatch(purchaseTacoStart());
         axios.post('/orders.json', orderData)
@@ -35,3 +35,52 @@ export const purchaseTacoStart = () => {
             });
     }
 } 
+
+export const purchaseInit = () => {
+    return {
+        type: actionTypes.PURCHASE_INIT
+    }
+}
+
+
+export const fetchOrdersStart = () => {
+    return {
+        type: actionTypes.FETCH_ORDERS_START
+    }
+}
+
+export const fetchOrdersSuccess = (orders) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_SUCCESS,
+        orders: orders
+    }
+}
+
+export const fetchOrdersFail = (error) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_FAIL,
+        error: error
+    }
+}
+
+export const fetchOrders = () => {
+    return (dispatch) => {
+        dispatch(fetchOrdersStart());
+        axios.get('/orders.json')
+            .then(response => {
+
+                const fetchedOrders = [];
+                for(let key in response.data){
+                    fetchedOrders.push({
+                        ...response.data[key],
+                        id: key
+                    });
+                }
+                dispatch(fetchOrdersSuccess(fetchedOrders));
+                
+            })
+            .catch(error => {
+                dispatch(fetchOrdersFail(error));
+            })
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as tacoBuildActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import './style.scss';
 import Taco from '../../components/Taco/Taco';
 import BuildControls from '../../components/Taco/BuildControls/BuildControls';
@@ -131,6 +131,7 @@ class TacoBuilder extends React.Component {
         // queryParams.push('price=' + this.state.totalPrice);
         // const queryString = queryParams.join('&');
 
+        this.props.onInitPurchase();
         this.props.history.push({
             pathname:  '/checkout',
             //search: '?'+ queryString
@@ -233,17 +234,22 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addIngredientHandler: (ingName) => {
             return(
-                dispatch(tacoBuildActions.addIngredient(ingName))
+                dispatch(actions.addIngredient(ingName))
             )
         },
         removeIngredientHandler: (ingName) => {
             return(
-                dispatch(tacoBuildActions.removeIngredient(ingName))
+                dispatch(actions.removeIngredient(ingName))
             )
         },
         onInitIngredients: () => {
             return (
-                dispatch(tacoBuildActions.initIngredients())
+                dispatch(actions.initIngredients())
+            )
+        },
+        onInitPurchase: () => {
+            return (
+                dispatch( actions.purchaseInit() )
             )
         }
     }

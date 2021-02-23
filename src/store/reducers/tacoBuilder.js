@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const INGREDIENT_PRICES = {
     tortilla: 0,
@@ -20,45 +21,115 @@ const INGREDIENT_PRICES = {
 
 const initialState = {
     ingredients: null,
-    totalPrice: 0,
+    totalPrice: 1,
     error: false
+}
+
+const addIngredient = (state, action) => {
+    return updateObject(state, {
+            ingredients: {
+                ...state.ingredients,
+                [action.ingredientName]: state.ingredients[action.ingredientName] + 1, 
+            },
+            totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+        }
+    )
+}
+
+const removeIngredient = (state, action) => {
+    return updateObject(state, {
+        ingredients: {
+            ...state.ingredients,
+            [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+        },
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+        }
+    )
+}
+
+const setIngredients = (state, action) => {
+    return updateObject(state, {
+            ingredients: action.ingredients,
+            totalPrice: 1,
+            error: false
+        }
+    )
+}
+
+const fetchIngredientsFail = (state, action) => {
+    return updateObject(state, {
+        error: true
+        }
+    )
 }
 
 const reducer = (state = initialState, action) => {
 
     switch(action.type){
-        case actionTypes.ADD_INGREDIENT :
-            return{
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredientName]: state.ingredients[action.ingredientName] + 1, 
-                },
-                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-            };
+        case actionTypes.ADD_INGREDIENT : 
+            return addIngredient(state, action);
+
+            // return updateObject(state, {
+            //         ingredients: {
+            //             ...state.ingredients,
+            //             [action.ingredientName]: state.ingredients[action.ingredientName] + 1, 
+            //         },
+            //         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+            //     }
+            // )
+            // return{
+            //     ...state,
+            //     ingredients: {
+            //         ...state.ingredients,
+            //         [action.ingredientName]: state.ingredients[action.ingredientName] + 1, 
+            //     },
+            //     totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+            // };
         case actionTypes.REMOVE_INGREDIENT :
-            return{
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-                },
-                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+            return removeIngredient(state, action);
+            // return updateObject(state, {
+            //     ingredients: {
+            //         ...state.ingredients,
+            //         [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+            //     },
+            //     totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+            //     }
+            // )
+            // return{
+            //     ...state,
+            //     ingredients: {
+            //         ...state.ingredients,
+            //         [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+            //     },
+            //     totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
                 
-            };
+            // };
 
         case actionTypes.SET_INGREDIENTS :
-            return {
-                ...state,
-                ingredients: action.ingredients,
-                error: false
-            };
+            return setIngredients(state, action);
+            // return updateObject(state, {
+            //         ingredients: action.ingredients,
+            //         totalPrice: 1,
+            //         error: false
+            //     }
+            // )
+            // return {
+            //     ...state,
+            //     ingredients: action.ingredients,
+            //     totalPrice: 1,
+            //     error: false
+            // };
 
         case actionTypes.FETCH_INGREDIENTS_FAIL :
-            return {
-                ...state,
-                error: true
-            }
+            return fetchIngredientsFail(state, action);
+            // return updateObject(state, {
+            //     error: true
+            //     }
+            // )
+            // return {
+            //     ...state,
+            //     error: true
+            // }
 
         default: 
             return state;

@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
 import './style.scss';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import { Route, Redirect } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
+
 
 class Checkout extends React.Component {
     // state = {
     //     ingredients: null,
     //     totalPrice: 0
     // }
-
+   
     componentWillMount = () => {
+        
         // const query = new URLSearchParams(this.props.location.search);
         // const ingredients = {};
         // let price = 0;
@@ -41,8 +42,11 @@ class Checkout extends React.Component {
 
     render() {
         let summary = <Redirect to="/" />;
+      
         if(this.props.rdx_ingredients){
+            const purchasedRedirect = this.props.rdx_purchased ? <Redirect to="/" /> : null;
             summary = <div>  
+                            {purchasedRedirect}
                             <CheckoutSummary 
                                 ingredients={this.props.rdx_ingredients} 
                                 checkoutContinue={this.checkoutContinue} 
@@ -64,7 +68,8 @@ class Checkout extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        rdx_ingredients: state.tacoBuilder.ingredients
+        rdx_ingredients: state.tacoBuilder.ingredients,
+        rdx_purchased: state.order.purchased
     }
 }
 

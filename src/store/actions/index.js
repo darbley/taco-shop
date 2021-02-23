@@ -7,5 +7,7 @@ export  {
 } from './tacoBuilder';
 
 export  {
-    purchaseTaco
+    purchaseTaco,
+    purchaseInit,
+    fetchOrders
 } from './order';
