@@ -117,6 +117,16 @@ class ContactData extends React.Component {
             isValid = value.length <= rules.maxLength && isValid
         }
 
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
         return isValid;
     }
 
@@ -163,7 +173,7 @@ class ContactData extends React.Component {
         }
         console.log('order ',order);
 
-        this.props.onOrderTaco(order);
+        this.props.onOrderTaco(order, this.props.rdx_token);
 
         // axios.post('/orders.json', order)
         //     .then(response => {
@@ -228,15 +238,16 @@ const mapStateToProps = (state) => {
     return {
         rdx_ingredients: state.tacoBuilder.ingredients,
         rdx_totalPrice: state.tacoBuilder.totalPrice,
-        rdx_loading: state.order.loading
+        rdx_loading: state.order.loading,
+        rdx_token: state.auth.token
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onOrderTaco: (orderData) => {
+        onOrderTaco: (orderData, token) => {
             return (
-                dispatch(actions.purchaseTaco(orderData))
+                dispatch(actions.purchaseTaco(orderData, token))
             )
         } 
     }

@@ -116,7 +116,12 @@ class TacoBuilder extends React.Component {
     }
 
     orderNowHandler = () => {
-        this.setState({ orderNow: true });
+        if(this.props.rdx_isAuthenticated ){
+            this.setState({ orderNow: true });
+        }else{
+            this.props.history.push('/');
+        }
+        
     }
 
     modalCloseHandler = () => {
@@ -193,6 +198,7 @@ class TacoBuilder extends React.Component {
                         purchaseable={this.updatePurchaseState(this.props.rdx_ingredients)}
                         totalPrice={this.props.rdx_totalPrice}
                         orderNow={this.orderNowHandler}
+                        isAuth={this.props.rdx_isAuthenticated}
                     />
                 </React.Fragment>
             )
@@ -226,7 +232,8 @@ const mapStateToProps = (state) => {
     return  {
         rdx_ingredients: state.tacoBuilder.ingredients,
         rdx_totalPrice: state.tacoBuilder.totalPrice,
-        error: state.tacoBuilder.error
+        error: state.tacoBuilder.error,
+        rdx_isAuthenticated: state.auth.token !== null
     }
 }
 

@@ -1,0 +1,17 @@
+@import '../../assets/scss/partials/vars';
+
+.auth {
+
+    form#auth-form{
+        display: block;
+        margin: 20px auto;
+        max-width: 500px;
+
+        input {
+            display: block;
+            width: 100%;
+            outline: 0;
+           // border: 1px solid #c1c1c1;
+        }
+    }
+}

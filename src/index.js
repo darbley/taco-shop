@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import tacoBuilderReducer from './store/reducers/tacoBuilder';
 import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -14,7 +15,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
     tacoBuilder: tacoBuilderReducer,
-    order: orderReducer
+    order: orderReducer,
+    auth: authReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

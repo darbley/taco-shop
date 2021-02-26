@@ -15,7 +15,7 @@ const SideDrawer = (props) => {
             <Backdrop show={props.open} closeBackdrop={props.closed} />
             <div className={`side-drawer ${sideDrawerStatus}`}>
                 <Logo />
-                <NavItems />
+                <NavItems isAuth={props.isAuth} />
             </div>
     
         </React.Fragment>
