@@ -43,6 +43,13 @@ class Auth extends React.Component {
         signUp: true
     }
 
+    componentDidMount() {
+        if(!this.props.rdx_buildingTaco && this.props.authRedirectPath !== '/'){
+            //Not building go homepage
+            this.props.onSetAuthRedirectPath('/');
+        }
+    }
+
     checkValidity = (value, rules) => {
         let isValid = true;
 
@@ -137,7 +144,7 @@ class Auth extends React.Component {
         }
 
         let authRedirect = null;
-        this.props.rdx_isAuthorized ? authRedirect = <Redirect to="/" /> : authRedirect = null;
+        this.props.rdx_isAuthorized ? authRedirect = <Redirect to={this.props.rdx_authRedirectPath} /> : authRedirect = null;
 
         return (
             <>
@@ -161,15 +168,22 @@ const mapStateToProps = (state) => {
     return {
         rdx_loading: state.auth.loading,
         rdx_error: state.auth.error,
-        rdx_isAuthorized: state.auth.token !== null
+        rdx_isAuthorized: state.auth.token !== null,
+        rdx_buildingTaco: state.tacoBuilder.building,
+        rdx_authRedirectPath: state.auth.authRedirectPath
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         onAuthorize: (email, password, signUp) => {
             return (
                 dispatch(actions.authorize(email, password, signUp))
+            )
+        },
+        onSetAuthRedirectPath: (path) => {
+            return (
+                dispatch(actions.setAuthRedirectPath(path))
             )
         }
     }

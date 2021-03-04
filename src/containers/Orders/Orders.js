@@ -14,7 +14,7 @@ class Orders extends React.Component {
     }
 
     componentDidMount = () => {
-        this.props.onFetchOrders(this.props.rdx_token);
+        this.props.onFetchOrders(this.props.rdx_token, this.props.rdx_userId);
         // axios.get('/orders.json')
         //     .then(response => {
 
@@ -64,15 +64,16 @@ class Orders extends React.Component {
 const mapStateToProps = (state) => {
     return {
         rdx_orders: state.order.orders,
-        rdx_token: state.auth.token
+        rdx_token: state.auth.token,
+        rdx_userId: state.auth.userId
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchOrders: (token) => {
+        onFetchOrders: (token, userId) => {
             return (
-                dispatch(actions.fetchOrders(token))
+                dispatch(actions.fetchOrders(token, userId))
             )
         }
     }

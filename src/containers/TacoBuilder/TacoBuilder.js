@@ -119,7 +119,10 @@ class TacoBuilder extends React.Component {
         if(this.props.rdx_isAuthenticated ){
             this.setState({ orderNow: true });
         }else{
-            this.props.history.push('/');
+            //is in progress of buiiding
+            this.props.onSetAuthRedirectPath('/checkout');
+            
+            this.props.history.push('/auth');
         }
         
     }
@@ -257,6 +260,11 @@ const mapDispatchToProps = (dispatch) => {
         onInitPurchase: () => {
             return (
                 dispatch( actions.purchaseInit() )
+            )
+        },
+        onSetAuthRedirectPath: (path) => {
+            return (
+                dispatch( actions.setAuthRedirectPath(path))
             )
         }
     }
