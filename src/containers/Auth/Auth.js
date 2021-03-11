@@ -6,6 +6,7 @@ import Button from '../../UI/Button/Button';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
+import { updateObject, checkValidity} from '../../shared/utility';
 
 class Auth extends React.Component {
 
@@ -50,44 +51,52 @@ class Auth extends React.Component {
         }
     }
 
-    checkValidity = (value, rules) => {
-        let isValid = true;
+    // checkValidity = (value, rules) => {
+    //     let isValid = true;
 
-        if (rules.required){
-            isValid = value.trim() !== '' && isValid;
-        }
+    //     if (rules.required){
+    //         isValid = value.trim() !== '' && isValid;
+    //     }
 
-        if(rules.minLength){
-            isValid = value.length >= rules.minLength && isValid
-        }
+    //     if(rules.minLength){
+    //         isValid = value.length >= rules.minLength && isValid
+    //     }
 
-        if(rules.maxLength){
-            isValid = value.length <= rules.maxLength && isValid
-        }
+    //     if(rules.maxLength){
+    //         isValid = value.length <= rules.maxLength && isValid
+    //     }
 
-        if (rules.isEmail) {
-            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            isValid = pattern.test(value) && isValid
-        }
+    //     if (rules.isEmail) {
+    //         const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    //         isValid = pattern.test(value) && isValid
+    //     }
 
-        if (rules.isNumeric) {
-            const pattern = /^\d+$/;
-            isValid = pattern.test(value) && isValid
-        }
+    //     if (rules.isNumeric) {
+    //         const pattern = /^\d+$/;
+    //         isValid = pattern.test(value) && isValid
+    //     }
 
-        return isValid;
-    }
+    //     return isValid;
+    // }
 
     inputChangeHandler = (event, inputIdentity) => {
-        const updatedAuthForm = {
-            ...this.state.authForm,
-            [inputIdentity]: {
-                ...this.state.authForm[inputIdentity],
+        // const updatedAuthForm = {
+        //     ...this.state.authForm,
+        //     [inputIdentity]: {
+        //         ...this.state.authForm[inputIdentity],
+        //         value: event.target.value,
+        //         valid: this.checkValidity(event.target.value, this.state.authForm[inputIdentity].validation),
+        //         touched: true
+        //     }   
+        // }
+
+        const updatedAuthForm = updateObject(this.state.authForm, {
+            [inputIdentity]: updateObject(this.state.authForm[inputIdentity], {
                 value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.authForm[inputIdentity].validation),
+                valid: checkValidity(event.target.value, this.state.authForm[inputIdentity].validation),
                 touched: true
-            }   
-        }
+            }) 
+        })
         this.setState({ authForm: updatedAuthForm });
     }
 

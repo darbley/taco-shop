@@ -7,14 +7,14 @@ const NavItems = (props) => (
         <ul>
             <NavItem link="/" >Taco Builder</NavItem>
             {props.isAuth ? 
-                <NavItem link="/orders" exact>Orders</NavItem>
+                <NavItem link="/orders" exact >Orders</NavItem>
                 :
                 null
             }
             {!props.isAuth ?
-                <NavItem link="/auth" exact>Authorize</NavItem> 
+                <NavItem link="/auth" exact >Authorize</NavItem> 
                 :
-                <NavItem link="/logout" exact>Logout</NavItem> 
+                <NavItem link="/logout" exact >Logout</NavItem> 
             }
             
         </ul>

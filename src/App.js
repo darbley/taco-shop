@@ -2,13 +2,26 @@ import React from 'react';
 import './assets/scss/styles.scss';
 import Layout from './hoc/Layout/Layout';
 import TacoBuilder from './containers/TacoBuilder/TacoBuilder';
-import Checkout from './containers/Checkout/Checkout';
+//import Checkout from './containers/Checkout/Checkout';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import Orders from './containers/Orders/Orders';
-import Auth from './containers/Auth/Auth';
+import AsyncComponent from './hoc/AsyncComponent/AsyncComponent';
+//import Orders from './containers/Orders/Orders';
+//import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 import { connect } from 'react-redux';
+
+const asyncCheckout = AsyncComponent(() => {
+    return import ('./containers/Checkout/Checkout');
+})
+
+const asyncOrders = AsyncComponent(() => {
+    return import ('./containers/Orders/Orders');
+})
+
+const asyncAuth = AsyncComponent(() => {
+    return import ('./containers/Auth/Auth');
+})
 
 class App extends React.Component {
 
@@ -19,9 +32,9 @@ class App extends React.Component {
         return (
             <Layout>
                 <Switch>
-                    { this.props.rdx_isAuthenticated && <Route path="/checkout" component={Checkout} />}
-                    { this.props.rdx_isAuthenticated && <Route path="/orders" component={Orders} />}
-                    <Route path="/auth" component={Auth} />
+                    { this.props.rdx_isAuthenticated && <Route path="/checkout" component={asyncCheckout} />}
+                    { this.props.rdx_isAuthenticated && <Route path="/orders" component={asyncOrders} />}
+                    <Route path="/auth" component={asyncAuth} />
                     { this.props.rdx_isAuthenticated && <Route path="/logout" component={Logout} />}
                     <Route path="/" exact component={TacoBuilder} />
                     <Redirect to="/" component={TacoBuilder} />

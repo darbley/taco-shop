@@ -27,7 +27,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 //     cilantro: 0.3
 // }
 
-class TacoBuilder extends React.Component {
+export class TacoBuilder extends React.Component {
     state = {
         orderNow: false,
         
